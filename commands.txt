@@ -1,2 +1,16 @@
+sudo mkdir /var/www/html/webesembly.com
+sudo mkdir /var/www/html/wildcard.webesembly.com
+
+sudo chown -R www-data:www-data /var/www/html/webesembly.com
+sudo chown -R www-data:www-data /var/www/html/wildcard.webesembly.com
+
+
 sudo ln -s /etc/nginx/sites-available/webesembly /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/wildcard-webesembly /etc/nginx/sites-enabled/
+
 sudo nginx -t
+
+
+
+root /var/www/html/wildcard-webesembly.com;
+index index.html index.htm;
