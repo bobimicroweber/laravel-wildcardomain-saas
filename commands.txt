@@ -1,0 +1,2 @@
+sudo ln -s /etc/nginx/sites-available/webesembly /etc/nginx/sites-enabled/
+sudo nginx -t
