@@ -1,11 +1,12 @@
+
 server {
+	server_name ~^(?<site>[^.]+)\.webesembly\.com$;
 
-    listen 80;
-	listen [::]:80;
+    root /var/www/html/wildcard.webesembly.com/sites/$site/;
 
-	root /var/www/html/webesembly.com/code/public;
-    server_name webesembly.com;
-
+     if (!-d /var/www/html/wildcard.webesembly.com/sites/$site/) {
+        rewrite https://webesembly.com redirect;
+     }
 
 	add_header X-Frame-Options "SAMEORIGIN";
 	add_header X-Content-Type-Options "nosniff";
@@ -24,7 +25,7 @@ server {
     error_page 404 /index.php;
 
     location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         include fastcgi_params;
     }
@@ -32,8 +33,23 @@ server {
     location ~ /\.(?!well-known).* {
         deny all;
     }
- }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/webesembly.com-0001/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/webesembly.com-0001/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+server {
+    if ($host = www.webesembly.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
 
 
+	server_name *.webesembly.com;
+    listen 80;
+    return 404; # managed by Certbot
 
-
+}
