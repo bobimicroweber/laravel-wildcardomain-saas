@@ -25,6 +25,11 @@ sudo apt install php7.4-common php7.4-zip php7.4-curl php7.4-xml php7.4-xmlrpc p
 
 
 
+sudo apt install php8.0-common php8.0-zip php8.0-curl php8.0-xml php8.0-xmlrpc php8.0-json php8.0-mysql php8.0-pdo php8.0-gd php8.0-imagick php8.0-ldap php8.0-imap php8.0-mbstring php8.0-intl php8.0-cli php8.0tidy php8.0-bcmath php8.0-opcache
+
+
+
+
 
 sudo php-fpm7.4 -t
 sudo systemctl restart php7.4-fpm
